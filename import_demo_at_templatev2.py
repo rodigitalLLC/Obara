@@ -189,7 +189,8 @@ def output_to_at_csv(df):
     'Work County',#BO
     'Residence County',#BP
     'Work City',#BQ
-    'Airline Flight Crew',#BQ
+    'Airline Flight Crew',#BR
+    'FTE Percentage'#BS
     ]
   df.to_csv('obara.csv',index=False,columns=template)
 
@@ -235,9 +236,10 @@ def customize(xls):
 
   #xls['Employment Status']=xls['Employment Status'].apply(lambda x: x[:1])
   xls['Employment Status']='A'
+  xls['Work State']='KY'
   #xls=xls.apply(set_hire_date, axis=1)
   xls['Exempt-NonExempt']=xls['EXEMPT/NONEXEMPT STS'].apply(lambda x: x[:1])
-  xls['Gender']=xls['Gender'].apply(lambda x: 'U' if 'N' in x else x[:1])
+  xls['Gender']=xls['Gender'].apply(lambda x: 'U' if x=='' else x[:1])
   xls['Service Date']=xls['Hire Date']
   xls['Schedule Effective Date']=xls['Hire Date']
 
@@ -248,6 +250,7 @@ def customize(xls):
   xls['Work Phone']=xls['Work Phone'].apply(lambda x: x.replace('-',''))
   xls['Mobile Phone']=xls['Mobile Phone'].apply(lambda x: x.replace('-',''))
   xls['Employee Phone Alt']=xls['Employee Phone Alt'].apply(lambda x: x.replace('-',''))
+  xls['FTE Percentage']='100'
 
   # define to '' those elements that are not present
   xls = xls.assign(**{'Manager Phone': '', 
@@ -260,7 +263,6 @@ def customize(xls):
                     'HR Contact Email':'', 
                     'Department':'',
                     'Cost Center':'',
-                    'Work State':'',
                     'Pay Type':'',
                     'Spouse Emp No':'', 
                     'Manager First':'',
@@ -285,14 +287,14 @@ def customize(xls):
                     'SSN':'', 
                     'Pay Schedule':'', 
                     'Start Date of Week':'', 
-                    'Average Weekly Minutes':'', 
+                    'Average Weekly Minutes':'2400', 
                     'Work County':'', 
                     'Residence County':'', 
                     'Work City':'', 
                     'Pay Rate':'', 
                     'Job Classification':'',
                     'Employee Reference Code':'',
-                    'Airline Flight Crew':'',
+                    'Airline Flight Crew':''
                     })
   
   #xls['Home Phone']=xls['Home Phone'].apply(lambda x: '' if x=='0' else x)
